@@ -20,24 +20,36 @@ const App = () => {
   useEffect(() => {
   let scanner = null;
   if (isScanning) {
-    // Menambah FPS dan menyesuaikan ukuran box untuk mobile
     scanner = new Html5QrcodeScanner("reader", { 
-      fps: 20, // Lebih halus
-      qrbox: { width: 250, height: 250 }, // Box area deteksi yang jelas
-      aspectRatio: 1.0 // Kotak sempurna
+      fps: 20, 
+      qrbox: { width: 250, height: 250 } 
     });
-    
+
     scanner.render((text) => {
-      const id = text.includes('/') ? text.split('/').pop() : text;
+      let id = "";
+
+      // Logika Filter: Cek apakah teks hasil scan adalah URL
+      try {
+        const url = new URL(text);
+        // Jika URL, ambil parameter 'id'
+        id = url.searchParams.get("id");
+      } catch (e) {
+        // Jika bukan URL (teks biasa), gunakan teks tersebut sebagai ID
+        // Menangani format URL manual atau path (misal: /lombok-abang)
+        id = text.split('id=').pop().split('&')[0] || text.split('/').pop();
+      }
+
+      // Cari di database Sheets yang sudah didownload
       const result = remoteDatabase[id] || { 
         q: "Data tidak ditemukan", 
-        a: "Pastikan Anda men-scan barcode resmi Tata Krama." 
+        a: "ID '" + id + "' belum terdaftar. Pastikan barcode sesuai dengan balok Tata Krama." 
       };
+
       setScanResult(result);
       setIsScanning(false);
       scanner.clear();
     }, (err) => {
-      // Biarkan kosong untuk menghindari spam di konsol
+      // Diamkan error NotFoundException agar tidak spam konsol
     });
   }
   return () => scanner?.clear();
