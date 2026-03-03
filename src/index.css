@@ -1,0 +1,68 @@
+
+@import "tailwindcss";
+
+:root {
+  --sogan-dark: #1a0f06;
+  --sogan-mid: #2d1b0e;
+  --gold-royal: #c5a059;
+  --gold-bright: #e2c27d;
+  --parchment: #f5e6ca;
+}
+
+body {
+  background-color: var(--sogan-dark);
+  color: var(--parchment);
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* Tekstur Batik Overlay */
+.batik-overlay {
+  background-image: url('https://www.transparenttextures.com/patterns/batik-fractal.png');
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* Border Emas Tegas */
+.border-gold {
+  border: 1px solid rgba(197, 160, 89, 0.3);
+}
+
+.border-gold-focus {
+  border: 1px solid var(--gold-royal);
+  box-shadow: 0 0 15px rgba(197, 160, 89, 0.2);
+}
+
+/* Typography Custom */
+.font-serif-royal {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: -0.02em;
+}
+
+/* Animasi Scanner */
+.scanner-box {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--gold-royal);
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.scanner-line {
+  width: 100%;
+  height: 2px;
+  background: var(--gold-bright);
+  position: absolute;
+  top: 0;
+  box-shadow: 0 0 15px var(--gold-bright);
+  animation: scan 2s infinite linear;
+}
+
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--sogan-dark); }
+::-webkit-scrollbar-thumb { background: var(--gold-royal); border-radius: 10px; }
