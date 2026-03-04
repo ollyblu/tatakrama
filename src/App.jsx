@@ -170,7 +170,6 @@ const App = () => {
       <nav className="fixed w-full z-[100] bg-[#1a0f06]/95 border-b border-[#c5a059]/20 backdrop-blur-md px-4 md:px-6 py-3">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
-            {/* LOGO PNG DI SINI */}
             <img 
               src="/logo.png" 
               alt="Logo" 
@@ -186,11 +185,39 @@ const App = () => {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button className="md:hidden text-[#c5a059]" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button 
+            className="md:hidden text-[#c5a059] p-2" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle Menu"
+          >
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
-        {/* ... dropdown mobile menu tetap sama */}
+
+        {/* Mobile Dropdown Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden overflow-hidden bg-[#1a0f06] border-t border-[#c5a059]/10"
+            >
+              <div className="flex flex-col gap-4 py-6 px-4">
+                {navLinks.map(link => (
+                  <a 
+                    key={link.name} 
+                    href={link.href} 
+                    onClick={() => setIsMenuOpen(false)} // Tutup menu saat link diklik
+                    className="text-[11px] tracking-[0.4em] uppercase font-bold text-[#f5e6ca]/80 hover:text-[#c5a059] py-2 transition-colors border-b border-[#c5a059]/5"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Konten Utama (Berikan animasi masuk juga agar halus) */}
