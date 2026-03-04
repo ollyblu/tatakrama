@@ -98,26 +98,26 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (Object.keys(remoteDatabase).length > 0) {
-      // 1. Ambil parameter 'id' dari URL (misal: ?id=lombok-abang)
-      const params = new URLSearchParams(window.location.search);
-      const idFromUrl = params.get('id');
+  // Tambahkan pengecekan !isLoading agar scroll menunggu loading selesai
+  if (!isLoading && Object.keys(remoteDatabase).length > 0) {
+    const params = new URLSearchParams(window.location.search);
+    const idFromUrl = params.get('id');
 
-      // 2. Jika ada ID di URL, cari jawabannya
-      if (idFromUrl && remoteDatabase[idFromUrl]) {
-        setScanResult(remoteDatabase[idFromUrl]);
+    if (idFromUrl && remoteDatabase[idFromUrl]) {
+      setScanResult(remoteDatabase[idFromUrl]);
 
-        // 3. Scroll otomatis ke bagian scanner agar jawaban terlihat
+      // Berikan sedikit delay (300ms) agar transisi fade-out loading selesai dulu
+      setTimeout(() => {
         const scannerSection = document.getElementById('scanner');
         if (scannerSection) {
           scannerSection.scrollIntoView({ behavior: 'smooth' });
         }
+      }, 300);
 
-        // 4. (Opsional) Bersihkan URL agar saat di-refresh tidak terus memunculkan jawaban
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, [remoteDatabase]); // Berjalan setelah data Google Sheets berhasil dimuat
+  }
+}, [remoteDatabase, isLoading]); // Tambahkan isLoading ke dependency array
 
   const navLinks = [
     { name: "Tentang", href: "#home" },
