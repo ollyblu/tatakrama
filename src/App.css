@@ -98,3 +98,23 @@ strong {
   background: var(--gold-royal);
   border-radius: 10px;
 }
+
+/* Efek kilauan halus pada logo saat loading */
+.loading-logo-glow {
+  filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.3));
+}
+
+/* Pastikan z-index navigasi lebih tinggi dari konten tapi di bawah loading screen */
+nav {
+  z-index: 100;
+}
+
+/* Animasi masuk konten utama */
+main {
+  animation: fadeIn 1.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
